@@ -96,7 +96,15 @@ class Client(object):
             'machineIdentifier': self.server.machineIdentifier,
             'containerKey': '/playQueues/%s?window=100&own=1' % playqueue.playQueueID,
             'key': video.key,
-            'offset': 0,
+            'offset': viewOffset,
+        })
+
+    def playPlayQueue(self, playQueue, video, viewOffset=0):
+        self.sendCommand('playback/playMedia', {
+            'machineIdentifier': self.server.machineIdentifier,
+            'containerKey': '/playQueues/%s?window=100&own=1' % playQueue.playQueueID,
+            'key': video.key,
+            'offset': viewOffset,
         })
 
     def timeline(self):

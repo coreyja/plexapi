@@ -35,3 +35,20 @@ class PlayQueue(object):
         })
         data = server.query(path, method=requests.post)
         return cls(server, data, initpath=path)
+
+    def addItem(self, video, next=0):
+        path = 'playQueues/%s/%s' % (self.playQueueID, utils.joinArgs({
+            'uri': 'library://__GID__/item/%s' % video.key,
+            'key': video.key,
+            'type': 'video',
+            'shuffle': 0,
+            'continuous': 0,
+            'repeat': 0,
+            'next': next,
+            'X-Plex-Client-Identifier': plexapi.X_PLEX_IDENTIFIER,
+        }))
+
+        return self.server.query(path, method=requests.put)
+
+    def addList(self, list):
+        return map(self.addItem, list)
